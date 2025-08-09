@@ -6,8 +6,28 @@
             [react-native :as rn]
             [uix.core :refer [$ defui] :as uix]))
 
-(defui feed [{:keys [on-profile-click]}]
+(defui feed [{:keys [on-profile-click new-post]}]
   (let [[posts set-posts!] (uix/use-state mock-posts)
+
+        ;; Effect to handle new posts
+        _ (uix/use-effect
+           (fn []
+             (when new-post
+               (set-posts! (fn [current-posts]
+                             (let [next-id (if (empty? current-posts) 1 (+ (apply max (map :id current-posts)) 1))
+                                   new-post-data {:id next-id
+                                                  :user {:name "You"
+                                                         :username "@you"
+                                                         :avatar "https://via.placeholder.com/40"}
+                                                  :content new-post
+                                                  :timestamp "now"
+                                                  :likes 0
+                                                  :replies 0
+                                                  :reposts 0
+                                                  :liked? false}]
+                               (vec (cons new-post-data current-posts)))))))
+           [new-post])
+
         handle-like (uix/use-callback
                      (fn [post-id]
                        (set-posts! (fn [current-posts]
@@ -46,7 +66,7 @@
                      :content-container-style {:padding-bottom 100}
                      :shows-horizontal-scroll-indicator false}))))
 
-(defui compose-button []
+(defui compose-button [{:keys [on-press]}]
   ($ rn/View {:style {:position "absolute"
                       :bottom 20
                       :right 20}}
@@ -61,13 +81,14 @@
                                      :shadow-opacity 0.25
                                      :shadow-radius 3.84
                                      :elevation 5}
-                             :on-press #(js/console.log "Compose new post")}
+                             :on-press on-press}
         ($ rn/Text {:style {:font-size 24
                             :color "white"}}
            "✏️"))))
 
-(defui feed-screen [{:keys [on-profile-click]}]
+(defui feed-screen [{:keys [on-profile-click on-compose-click new-post]}]
   ($ rn/View {:style {:flex 1
                       :background-color "#ffffff"}}
-     ($ feed {:on-profile-click on-profile-click})
-     ($ compose-button)))
+     ($ feed {:on-profile-click on-profile-click
+              :new-post new-post})
+     ($ compose-button {:on-press on-compose-click})))
