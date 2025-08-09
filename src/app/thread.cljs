@@ -23,42 +23,21 @@
        (filter #(= (:reply-to %) parent-id))
        (sort-by :id)))
 
-(defui thread-connector [{:keys [is-last?]}]
-  "Visual connector line for thread replies"
-  ($ rn/View {:style {:width 2
-                      :background-color "#e1e8ed"
-                      :margin-left 19
-                      :margin-top 4
-                      :height (if is-last? 20 48)}}))
-
 (defui thread-item [{:keys [post on-like on-reply on-repost on-profile-click replies level]}]
-  "Individual post in a thread with connector lines"
+  "Individual post in a thread with clean layout"
   (let [has-replies? (> (count replies) 0)]
     ($ rn/View {:style {:flex 1}}
 
-       ;; Main post
-       ($ rn/View {:style {:flex-direction "row"}}
-          ;; Thread connector for replies (not main post)
-          (when (> level 0)
-            ($ rn/View {:style {:width 40
-                                :align-items "center"
-                                :padding-top 12}}
-               ($ rn/View {:style {:width 2
-                                   :height 20
-                                   :background-color "#e1e8ed"}})))
+       ;; Post content (no connectors or indentation)
+       ($ feed-item {:post post
+                     :on-like on-like
+                     :on-reply on-reply
+                     :on-repost on-repost
+                     :on-profile-click on-profile-click})
 
-          ;; Post content
-          ($ rn/View {:style {:flex 1
-                              :margin-left (if (> level 0) 8 0)}}
-             ($ feed-item {:post post
-                           :on-like on-like
-                           :on-reply on-reply
-                           :on-repost on-repost
-                           :on-profile-click on-profile-click})))
-
-       ;; Replies (nested)
+       ;; Replies (no nesting margin)
        (when has-replies?
-         ($ rn/View {:style {:margin-left 40}}
+         ($ rn/View {}
             (for [reply replies]
               ($ thread-item {:key (:id reply)
                               :post reply
