@@ -6,7 +6,7 @@
             [react-native :as rn]
             [uix.core :refer [$ defui] :as uix]))
 
-(defui feed [{:keys [on-profile-click new-post new-reply replying-to on-thread-click on-reply-click]}]
+(defui feed [{:keys [on-profile-click new-post new-reply replying-to on-thread-click on-reply-click on-search-click]}]
   (let [[posts set-posts!] (uix/use-state mock-posts)
 
         ;; Effect to handle new posts
@@ -85,7 +85,7 @@
 ;; Action handlers
     ($ rn/SafeAreaView {:style {:flex 1
                                 :background-color "#ffffff"}}
-       ($ feed-header)
+       ($ feed-header {:on-search-click on-search-click})
        ($ flat-list {:data (filter #(nil? (:reply-to %)) posts) ; Only show main posts, not replies
                      :key-extractor (fn [item] (str (:id item)))
                      :render-item (fn [item]
@@ -121,12 +121,13 @@
                             :color "white"}}
            "✏️"))))
 
-(defui feed-screen [{:keys [on-profile-click on-compose-click on-thread-click on-reply-click new-post new-reply replying-to]}]
+(defui feed-screen [{:keys [on-profile-click on-compose-click on-thread-click on-reply-click on-search-click new-post new-reply replying-to]}]
   ($ rn/View {:style {:flex 1
                       :background-color "#ffffff"}}
      ($ feed {:on-profile-click on-profile-click
               :on-thread-click on-thread-click
               :on-reply-click on-reply-click
+              :on-search-click on-search-click
               :new-post new-post
               :new-reply new-reply
               :replying-to replying-to})

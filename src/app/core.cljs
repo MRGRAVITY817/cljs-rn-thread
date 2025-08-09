@@ -6,6 +6,7 @@
             [app.profile :refer [profile-screen]]
             [app.compose :refer [compose-screen]]
             [app.thread :refer [thread-screen]]
+            [app.search :refer [search-screen]]
             [components.reply-composer :refer [reply-composer]]))
 
 (defui counter []
@@ -43,6 +44,9 @@
                             (set-current-screen! {:screen :reply
                                                   :replying-to replying-to}))
 
+        navigate-to-search (fn []
+                             (set-current-screen! {:screen :search}))
+
         navigate-back (fn []
                         (set-current-screen! {:screen :feed}))
 
@@ -62,6 +66,7 @@
                             :on-compose-click navigate-to-compose
                             :on-thread-click navigate-to-thread
                             :on-reply-click navigate-to-reply
+                            :on-search-click navigate-to-search
                             :new-post (:new-post current-screen)
                             :new-reply (:new-reply current-screen)
                             :replying-to (:replying-to current-screen)})
@@ -75,7 +80,10 @@
                                 :on-reply navigate-to-reply})
       :reply ($ reply-composer {:replying-to (:replying-to current-screen)
                                 :on-cancel navigate-back
-                                :on-submit handle-reply-submit}))))
+                                :on-submit handle-reply-submit})
+      :search ($ search-screen {:on-back navigate-back
+                                :on-profile-click navigate-to-profile
+                                :on-thread-click navigate-to-thread}))))
 
 (defn ^:export init []
   (expo/registerRootComponent root))
