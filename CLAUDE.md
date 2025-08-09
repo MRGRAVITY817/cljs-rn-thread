@@ -72,6 +72,19 @@ This is a **ClojureScript React Native project** built with Expo, using UIx (Rea
 - **For hooks only**: `[uix.core :as uix]` then use `uix/use-state`, `uix/use-effect`, etc.
 - **Never use `defui` without importing it** - this will cause compilation errors
 
+**Function and Component Definition Rules**:
+- **ALWAYS place docstrings before parameter vectors**: `(defn my-fn "docstring" [params] body)`
+- **NEVER place docstrings after parameter vectors**: Incorrect: `(defn my-fn [params] "docstring" body)`
+- **Correct defn format**: `(defn function-name "Optional docstring" [parameters] body)`
+- **Correct defui format**: `(defui component-name "Optional docstring" [props] body)`
+- **Multi-line definitions should align properly**:
+  ```clojure
+  (defn function-name
+    "Optional docstring explaining what this function does"
+    [parameters]
+    body)
+  ```
+
 ### State Management
 The project uses React hooks (via UIx) for local state management. For complex state, consider:
 - UIx context providers

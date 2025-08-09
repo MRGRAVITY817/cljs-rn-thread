@@ -2,8 +2,9 @@
   (:require [react-native :as rn]
             [uix.core :refer [$ defui] :as uix]))
 
-(defui reply-header [{:keys [on-cancel on-reply can-reply? replying-to]}]
+(defui reply-header
   "Header for reply composer"
+  [{:keys [on-cancel on-reply can-reply? replying-to]}]
   ($ rn/SafeAreaView {:style {:background-color "white"
                               :border-bottom-width 0.5
                               :border-bottom-color "#e1e8ed"}}
@@ -43,8 +44,9 @@
                                :font-size 15}}
               "Reply")))))
 
-(defui original-post [{:keys [post]}]
+(defui original-post
   "Display the original post being replied to"
+  [{:keys [post]}]
   ($ rn/View {:style {:background-color "white"
                       :border-radius 12
                       :margin 16
@@ -80,8 +82,9 @@
                          :line-height 18}}
         (:content post))))
 
-(defui character-count [{:keys [count max-count]}]
+(defui character-count
   "Character counter for reply"
+  [{:keys [count max-count]}]
   (let [remaining (- max-count count)
         color (cond
                 (< remaining 20) "#f91880" ; Red when close to limit
@@ -94,8 +97,9 @@
                            :font-weight "500"}}
           (str remaining " characters remaining")))))
 
-(defui reply-composer [{:keys [replying-to on-cancel on-submit]}]
+(defui reply-composer
   "Main reply composer screen"
+  [{:keys [replying-to on-cancel on-submit]}]
   (let [[reply-text set-reply-text!] (uix/use-state "")
         max-characters 280
         can-reply? (and (> (count (clojure.string/trim reply-text)) 0)
