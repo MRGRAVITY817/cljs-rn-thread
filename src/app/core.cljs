@@ -4,7 +4,9 @@
             [uix.core :refer [$ defui] :as uix]
             [app.feed :refer [feed-screen]]
             [app.profile :refer [profile-screen]]
-            [app.compose :refer [compose-screen]]))
+            [app.compose :refer [compose-screen]]
+            [app.thread :refer [thread-screen]]
+            [components.reply-composer :refer [reply-composer]]))
 
 (defui counter []
   (let [[count set-count!] (uix/use-state 0)]
@@ -33,6 +35,14 @@
         navigate-to-compose (fn []
                               (set-current-screen! {:screen :compose}))
 
+        navigate-to-thread (fn [thread-id]
+                             (set-current-screen! {:screen :thread
+                                                   :thread-id thread-id}))
+
+        navigate-to-reply (fn [replying-to]
+                            (set-current-screen! {:screen :reply
+                                                  :replying-to replying-to}))
+
         navigate-back (fn []
                         (set-current-screen! {:screen :feed}))
 
@@ -40,16 +50,32 @@
                              ;; This function will be passed down to update the feed
                              ;; For now, just navigate back - the actual post creation
                              ;; will be handled in the feed component
-                             (set-current-screen! {:screen :feed :new-post post-content}))]
+                             (set-current-screen! {:screen :feed :new-post post-content}))
+
+        handle-reply-submit (fn [reply-content]
+                              ;; Handle reply submission
+                              (set-current-screen! {:screen :feed :new-reply reply-content
+                                                    :replying-to (:replying-to current-screen)}))]
 
     (case (:screen current-screen)
       :feed ($ feed-screen {:on-profile-click navigate-to-profile
                             :on-compose-click navigate-to-compose
-                            :new-post (:new-post current-screen)})
+                            :on-thread-click navigate-to-thread
+                            :on-reply-click navigate-to-reply
+                            :new-post (:new-post current-screen)
+                            :new-reply (:new-reply current-screen)
+                            :replying-to (:replying-to current-screen)})
       :profile ($ profile-screen {:username (:username current-screen)
                                   :on-back navigate-back})
       :compose ($ compose-screen {:on-cancel navigate-back
-                                  :on-submit handle-post-submit}))))
+                                  :on-submit handle-post-submit})
+      :thread ($ thread-screen {:thread-id (:thread-id current-screen)
+                                :on-back navigate-back
+                                :on-profile-click navigate-to-profile
+                                :on-reply navigate-to-reply})
+      :reply ($ reply-composer {:replying-to (:replying-to current-screen)
+                                :on-cancel navigate-back
+                                :on-submit handle-reply-submit}))))
 
 (defn ^:export init []
   (expo/registerRootComponent root))

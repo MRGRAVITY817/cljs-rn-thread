@@ -10,7 +10,9 @@
     :likes 24
     :replies 5
     :reposts 3
-    :liked? false}
+    :liked? false
+    :reply-to nil
+    :thread-id 1}
 
    {:id 2
     :user {:name "Alex Rivera"
@@ -21,7 +23,9 @@
     :likes 67
     :replies 12
     :reposts 8
-    :liked? true}
+    :liked? true
+    :reply-to nil
+    :thread-id 2}
 
    {:id 3
     :user {:name "Maya Patel"
@@ -32,7 +36,9 @@
     :likes 89
     :replies 23
     :reposts 15
-    :liked? false}
+    :liked? false
+    :reply-to nil
+    :thread-id 3}
 
    {:id 4
     :user {:name "Jordan Kim"
@@ -43,7 +49,9 @@
     :likes 42
     :replies 18
     :reposts 6
-    :liked? true}
+    :liked? true
+    :reply-to nil
+    :thread-id 4}
 
    {:id 5
     :user {:name "Emma Watson"
@@ -54,7 +62,9 @@
     :likes 156
     :replies 34
     :reposts 28
-    :liked? false}
+    :liked? false
+    :reply-to nil
+    :thread-id 5}
 
    {:id 6
     :user {:name "Carlos Mendez"
@@ -65,7 +75,9 @@
     :likes 203
     :replies 45
     :reposts 67
-    :liked? true}
+    :liked? true
+    :reply-to nil
+    :thread-id 6}
 
    {:id 7
     :user {:name "Zoe Taylor"
@@ -76,7 +88,9 @@
     :likes 78
     :replies 15
     :reposts 12
-    :liked? false}
+    :liked? false
+    :reply-to nil
+    :thread-id 7}
 
    {:id 8
     :user {:name "Ryan Murphy"
@@ -87,7 +101,62 @@
     :likes 91
     :replies 21
     :reposts 19
-    :liked? false}])
+    :liked? false
+    :reply-to nil
+    :thread-id 8}
+
+   ;; Sample replies
+   {:id 9
+    :user {:name "Tech Enthusiast"
+           :username "@techlover"
+           :avatar "https://via.placeholder.com/40"}
+    :content "@sarahc Totally agree! The REPL-driven development is amazing. How are you handling state management?"
+    :timestamp "1h"
+    :likes 5
+    :replies 2
+    :reposts 0
+    :liked? false
+    :reply-to 1
+    :thread-id 1}
+
+   {:id 10
+    :user {:name "Dev Community"
+           :username "@devs"
+           :avatar "https://via.placeholder.com/40"}
+    :content "@alexr This is exactly why I switched from JavaScript! The confidence you get from immutability is unmatched."
+    :timestamp "3h"
+    :likes 12
+    :replies 3
+    :reposts 1
+    :liked? false
+    :reply-to 2
+    :thread-id 2}
+
+   {:id 11
+    :user {:name "Sarah Chen"
+           :username "@sarahc"
+           :avatar "https://via.placeholder.com/40"}
+    :content "@techlover We're using Re-frame for global state and UIx hooks for local component state. Works really well together!"
+    :timestamp "45m"
+    :likes 8
+    :replies 0
+    :reposts 0
+    :liked? false
+    :reply-to 9
+    :thread-id 1}
+
+   {:id 12
+    :user {:name "Mobile Designer"
+           :username "@mobileui"
+           :avatar "https://via.placeholder.com/40"}
+    :content "@mayap YES! The new navigation transitions are so smooth. Have you tried implementing them in React Native yet?"
+    :timestamp "5h"
+    :likes 15
+    :replies 1
+    :reposts 2
+    :liked? true
+    :reply-to 3
+    :thread-id 3}])
 
 (def users
   {"@sarahc" {:name "Sarah Chen"

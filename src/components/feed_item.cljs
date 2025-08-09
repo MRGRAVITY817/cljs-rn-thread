@@ -23,12 +23,13 @@
         (format-number count))))
 
 (defui feed-item
-  [{:keys [post on-like on-reply on-repost on-profile-click]}]
-  ($ rn/View {:style {:background-color "white"
-                      :border-bottom-width 0.5
-                      :border-bottom-color "#e1e8ed"
-                      :padding-horizontal 16
-                      :padding-vertical 12}}
+  [{:keys [post on-like on-reply on-repost on-profile-click on-thread-click]}]
+  ($ rn/TouchableOpacity {:style {:background-color "white"
+                                  :border-bottom-width 0.5
+                                  :border-bottom-color "#e1e8ed"
+                                  :padding-horizontal 16
+                                  :padding-vertical 12}
+                          :on-press on-thread-click}
 
            ;; Header with avatar and user info
      ($ rn/View {:style {:flex-direction "row"
@@ -84,7 +85,8 @@
         ($ action-button {:icon "💬"
                           :count (:replies post)
                           :active? false
-                          :on-press #(on-reply (:id post))})
+                          :on-press #(when on-reply
+                                       (on-reply (:id post)))})
         ($ action-button {:icon "🔄"
                           :count (:reposts post)
                           :active? false
