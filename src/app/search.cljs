@@ -6,19 +6,19 @@
 
 (def trending-topics
   [#:trending{:tag "#ClojureScript"
-              :posts 1247
+              :posts 1542
               :category "Technology"}
    #:trending{:tag "#ReactNative"
-              :posts 892
+              :posts 1298
               :category "Development"}
    #:trending{:tag "#FunctionalProgramming"
-              :posts 634
+              :posts 876
               :category "Programming"}
    #:trending{:tag "#MobileDev"
-              :posts 567
+              :posts 2134
               :category "Technology"}
    #:trending{:tag "#OpenSource"
-              :posts 445
+              :posts 567
               :category "Technology"}])
 
 (def recent-searches
@@ -29,20 +29,21 @@
    "#MobileDev"])
 
 (defn search-posts [query posts]
-  "Search posts by content"
+  "Search posts by content, including hashtag filtering"
   (if (empty? query)
     []
-    (->> posts
-         (filter #(or (clojure.string/includes?
-                       (clojure.string/lower-case (:content %))
-                       (clojure.string/lower-case query))
-                      (clojure.string/includes?
-                       (clojure.string/lower-case (get-in % [:user :name]))
-                       (clojure.string/lower-case query))
-                      (clojure.string/includes?
-                       (clojure.string/lower-case (get-in % [:user :username]))
-                       (clojure.string/lower-case query))))
-         (take 20))))
+    (let [query-lower (clojure.string/lower-case query)]
+      (->> posts
+           (filter #(or (clojure.string/includes?
+                         (clojure.string/lower-case (:content %))
+                         query-lower)
+                        (clojure.string/includes?
+                         (clojure.string/lower-case (get-in % [:user :name]))
+                         query-lower)
+                        (clojure.string/includes?
+                         (clojure.string/lower-case (get-in % [:user :username]))
+                         query-lower)))
+           (take 20)))))
 
 (defn search-users [query all-users]
   "Search users by name or username"
