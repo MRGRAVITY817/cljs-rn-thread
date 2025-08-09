@@ -26,24 +26,24 @@
                       :border-bottom-width 0.5
                       :border-bottom-color "#e1e8ed"}}
 
-     ;; Header bar
-     ($ rn/View {:style {:flex-direction "row"
-                         :align-items "center"
-                         :padding-horizontal 16
-                         :padding-vertical 12
-                         :padding-top 44}}
-        ($ rn/TouchableOpacity {:on-press on-back
-                                :style {:padding 8
-                                        :margin-right 12}}
-           ($ rn/Text {:style {:font-size 18}} "←"))
-        ($ rn/View {:style {:flex 1}}
-           ($ rn/Text {:style {:font-size 20
-                               :font-weight "bold"
-                               :color "#0f1419"}}
-              (:name user))
-           ($ rn/Text {:style {:font-size 13
-                               :color "#536471"}}
-              (str (format-number (:posts user)) " posts"))))
+     ;; Header bar with SafeAreaView for proper spacing
+     ($ rn/SafeAreaView {:style {:background-color "white"}}
+        ($ rn/View {:style {:flex-direction "row"
+                            :align-items "center"
+                            :padding-horizontal 16
+                            :padding-vertical 12}}
+           ($ rn/TouchableOpacity {:on-press on-back
+                                   :style {:padding 8
+                                           :margin-right 12}}
+              ($ rn/Text {:style {:font-size 18}} "←"))
+           ($ rn/View {:style {:flex 1}}
+              ($ rn/Text {:style {:font-size 20
+                                  :font-weight "bold"
+                                  :color "#0f1419"}}
+                 (:name user))
+              ($ rn/Text {:style {:font-size 13
+                                  :color "#536471"}}
+                 (str (format-number (:posts user)) " posts")))))
 
      ;; Profile info
      ($ rn/View {:style {:padding-horizontal 16
@@ -62,14 +62,15 @@
                                :align-items "center"}}
               ($ rn/Text {:style {:font-size 32}} "👤"))
 
-           ($ rn/TouchableOpacity {:style {:background-color "#0f1419"
+           ($ rn/TouchableOpacity {:style {:border-width 1
+                                           :border-color "#cfd9de"
                                            :border-radius 20
                                            :padding-horizontal 16
-                                           :padding-vertical 8
-                                           :margin-top 12}}
-              ($ rn/Text {:style {:color "white"
-                                  :font-weight "bold"
-                                  :font-size 14}}
+                                           :padding-vertical 6
+                                           :margin-top 8}}
+              ($ rn/Text {:style {:color "#0f1419"
+                                  :font-weight "600"
+                                  :font-size 15}}
                  "Follow")))
 
         ;; Name and username
