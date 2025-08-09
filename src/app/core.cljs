@@ -2,7 +2,8 @@
   (:require [react-native :as rn]
             ["expo" :as expo]
             [uix.core :refer [$ defui] :as uix]
-            [app.feed :refer [feed-screen]]))
+            [app.feed :refer [feed-screen]]
+            [app.profile :refer [profile-screen]]))
 
 (defui counter []
   (let [[count set-count!] (uix/use-state 0)]
@@ -21,7 +22,19 @@
              "Tap here to --")))))
 
 (defui root []
-  ($ feed-screen))
+  (let [[current-screen set-current-screen!] (uix/use-state {:screen :feed})
+
+        navigate-to-profile (fn [username]
+                              (set-current-screen! {:screen :profile
+                                                    :username username}))
+
+        navigate-back (fn []
+                        (set-current-screen! {:screen :feed}))]
+
+    (case (:screen current-screen)
+      :feed ($ feed-screen {:on-profile-click navigate-to-profile})
+      :profile ($ profile-screen {:username (:username current-screen)
+                                  :on-back navigate-back}))))
 
 (defn ^:export init []
   (expo/registerRootComponent root))

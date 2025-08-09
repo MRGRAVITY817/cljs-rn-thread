@@ -23,7 +23,7 @@
         (format-number count))))
 
 (defui feed-item
-  [{:keys [post on-like on-reply on-repost]}]
+  [{:keys [post on-like on-reply on-repost on-profile-click]}]
   ($ rn/View {:style {:background-color "white"
                       :border-bottom-width 0.5
                       :border-bottom-color "#e1e8ed"
@@ -34,11 +34,13 @@
      ($ rn/View {:style {:flex-direction "row"
                          :align-items "start"
                          :margin-bottom 8}}
-        ($ rn/View {:style {:width 40
-                            :height 40
-                            :border-radius 20
-                            :background-color "#e1e8ed"
-                            :margin-right 12}}
+        ($ rn/TouchableOpacity {:style {:width 40
+                                        :height 40
+                                        :border-radius 20
+                                        :background-color "#e1e8ed"
+                                        :margin-right 12}
+                                :on-press #(when on-profile-click
+                                             (on-profile-click (get-in post [:user :username])))}
                  ;; Placeholder for avatar
            ($ rn/Text {:style {:text-align "center"
                                :line-height 40

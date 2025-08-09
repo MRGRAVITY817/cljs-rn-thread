@@ -6,19 +6,19 @@
             [react-native :as rn]
             [uix.core :refer [$ defui] :as uix]))
 
-(defui feed []
+(defui feed [{:keys [on-profile-click]}]
   (let [[posts set-posts!] (uix/use-state mock-posts)
-        handle-like        (uix/use-callback
-                            (fn [post-id]
-                              (set-posts! (fn [current-posts]
-                                            (mapv (fn [post]
-                                                    (if (= (:id post) post-id)
-                                                      (-> post
-                                                          (update :liked? not)
-                                                          (update :likes (if (:liked? post) dec inc)))
-                                                      post))
-                                                  current-posts))))
-                            [])
+        handle-like (uix/use-callback
+                     (fn [post-id]
+                       (set-posts! (fn [current-posts]
+                                     (mapv (fn [post]
+                                             (if (= (:id post) post-id)
+                                               (-> post
+                                                   (update :liked? not)
+                                                   (update :likes (if (:liked? post) dec inc)))
+                                               post))
+                                           current-posts))))
+                     [])
 
         handle-reply (uix/use-callback
                       (fn [post-id]
@@ -40,7 +40,8 @@
                                     ($ feed-item {:post item
                                                   :on-like handle-like
                                                   :on-reply handle-reply
-                                                  :on-repost handle-repost}))
+                                                  :on-repost handle-repost
+                                                  :on-profile-click on-profile-click}))
                      :style {:flex 1}
                      :content-container-style {:padding-bottom 100}
                      :shows-horizontal-scroll-indicator false}))))
@@ -65,8 +66,8 @@
                             :color "white"}}
            "✏️"))))
 
-(defui feed-screen []
+(defui feed-screen [{:keys [on-profile-click]}]
   ($ rn/View {:style {:flex 1
                       :background-color "#ffffff"}}
-     ($ feed)
+     ($ feed {:on-profile-click on-profile-click})
      ($ compose-button)))
