@@ -60,6 +60,11 @@ This is a **ClojureScript React Native project** built with Expo, using UIx (Rea
 - Use `$` macro for JSX-like element creation
 - React Native components are accessed via `rn/` namespace
 
+**Component Usage Rules**:
+- **ALWAYS use `components.flat-list/flat-list`** instead of `rn/FlatList` for all list components
+- Import custom components from `src/components/` when they exist
+- Prefer project-specific components over raw React Native components
+
 ### State Management
 The project uses React hooks (via UIx) for local state management. For complex state, consider:
 - UIx context providers
