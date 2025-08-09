@@ -1,10 +1,11 @@
 (ns app.conversation
-  (:require [uix.core :as uix :refer [$]]
-            [react-native :as rn]
-            [components.flat-list :refer [flat-list]]
-            [components.message-bubble :refer [message-bubble]]
-            [components.message-composer :refer [message-composer]]
-            [app.data :refer [messages users]]))
+  (:require
+   [app.data :refer [messages users]]
+   [components.flat-list :refer [flat-list]]
+   [components.message-bubble :refer [message-bubble]]
+   [components.message-composer :refer [message-composer]]
+   [react-native :as rn]
+   [uix.core :as uix :refer [$ defui]]))
 
 (defn get-conversation-partner [conversation current-user]
   (let [partner-username (first (filter #(not= % current-user) (:participants conversation)))]
@@ -28,7 +29,7 @@
 (defui conversation-header
   [{:keys [conversation current-user on-back]}]
   (let [partner (get-conversation-partner conversation current-user)]
-    ($ rn/view
+    ($ rn/View
        {:style {:flex-direction "row"
                 :align-items "center"
                 :padding-horizontal 16
@@ -37,31 +38,31 @@
                 :border-bottom-width 1
                 :border-bottom-color "#E5E5EA"}}
 
-       ($ rn/touchable-opacity
+       ($ rn/TouchableOpacity
           {:on-press on-back
            :style {:padding 8
                    :margin -8
                    :margin-right 4}}
-          ($ rn/text
+          ($ rn/Text
              {:style {:font-size 18
                       :color "#007AFF"}}
              "‹"))
 
-       ($ rn/image
+       ($ rn/Image
           {:source {:uri (:avatar partner)}
            :style {:width 32
                    :height 32
                    :border-radius 16
                    :margin-right 12}})
 
-       ($ rn/view
+       ($ rn/View
           {:style {:flex 1}}
-          ($ rn/text
+          ($ rn/Text
              {:style {:font-size 16
                       :font-weight "600"
                       :color "#000"}}
              (:name partner))
-          ($ rn/text
+          ($ rn/Text
              {:style {:font-size 14
                       :color "#8E8E93"}}
              (str "@" (:username partner)))))))
@@ -80,7 +81,7 @@
                                                  :read true}]
                                 (set-local-messages #(conj % new-message))))]
 
-    ($ rn/view
+    ($ rn/View
        {:style {:flex 1
                 :background-color "#F8F9FA"}}
 
@@ -90,17 +91,17 @@
            :on-back on-back})
 
        (if (empty? local-messages)
-         ($ rn/view
+         ($ rn/View
             {:style {:flex 1
                      :justify-content "center"
                      :align-items "center"
                      :padding 32}}
-            ($ rn/text
+            ($ rn/Text
                {:style {:font-size 18
                         :color "#8E8E93"
                         :text-align "center"}}
                "No messages yet")
-            ($ rn/text
+            ($ rn/Text
                {:style {:font-size 14
                         :color "#8E8E93"
                         :text-align "center"

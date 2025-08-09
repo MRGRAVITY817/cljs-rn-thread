@@ -1,7 +1,7 @@
 (ns components.message-bubble
-  (:require [uix.core :as uix :refer [$]]
+  (:require [app.data :refer [users]]
             [react-native :as rn]
-            [app.data :refer [users]]))
+            [uix.core :as uix :refer [$ defui]]))
 
 (defn format-message-time [timestamp]
   (let [date (js/Date. timestamp)
@@ -17,14 +17,14 @@
   [{:keys [message current-user is-last-in-group]}]
   (let [is-own-message (= (:sender message) current-user)
         sender-user (first (filter #(= (:username %) (:sender message)) users))]
-    ($ rn/view
+    ($ rn/View
        {:style (cond-> {:flex-direction "row"
                         :margin-horizontal 12
                         :margin-bottom (if is-last-in-group 12 4)}
                  is-own-message (assoc :justify-content "flex-end"))}
 
        (when (and (not is-own-message) is-last-in-group)
-         ($ rn/image
+         ($ rn/Image
             {:source {:uri (:avatar sender-user)}
              :style {:width 32
                      :height 32
@@ -33,13 +33,13 @@
                      :align-self "flex-end"}}))
 
        (when (and (not is-own-message) (not is-last-in-group))
-         ($ rn/view {:style {:width 32 :margin-right 8}}))
+         ($ rn/View {:style {:width 32 :margin-right 8}}))
 
-       ($ rn/view
+       ($ rn/View
           {:style {:flex-shrink 1
                    :max-width "80%"}}
 
-          ($ rn/view
+          ($ rn/View
              {:style (merge {:padding-horizontal 16
                              :padding-vertical 12
                              :border-radius 20}
@@ -49,7 +49,7 @@
                               {:background-color "#F2F2F7"
                                :align-self "flex-start"}))}
 
-             ($ rn/text
+             ($ rn/Text
                 {:style (merge {:font-size 16
                                 :line-height 20}
                                (when is-own-message
@@ -57,7 +57,7 @@
                 (:content message)))
 
           (when is-last-in-group
-            ($ rn/text
+            ($ rn/Text
                {:style {:font-size 12
                         :color "#8E8E93"
                         :margin-top 4

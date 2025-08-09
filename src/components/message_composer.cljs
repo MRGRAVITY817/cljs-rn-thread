@@ -7,7 +7,7 @@
   (let [[message-text set-message-text] (uix/use-state "")
         can-send (> (count (clojure.string/trim message-text)) 0)]
 
-    ($ rn/view
+    ($ rn/View
        {:style {:flex-direction "row"
                 :align-items "flex-end"
                 :padding-horizontal 16
@@ -16,11 +16,11 @@
                 :border-top-width 1
                 :border-top-color "#E5E5EA"}}
 
-       ($ rn/view
+       ($ rn/View
           {:style {:flex 1
                    :margin-right 12}}
 
-          ($ rn/text-input
+          ($ rn/TextInput
              {:style {:border-width 1
                       :border-color "#E5E5EA"
                       :border-radius 20
@@ -42,7 +42,7 @@
                                      (on-send message-text)
                                      (set-message-text "")))}))
 
-       ($ rn/touchable-opacity
+       ($ rn/TouchableOpacity
           {:style (merge {:width 36
                           :height 36
                           :border-radius 18
@@ -57,7 +57,7 @@
                          (on-send message-text)
                          (set-message-text "")))}
 
-          ($ rn/text
+          ($ rn/Text
              {:style {:color (if can-send "white" "#8E8E93")
                       :font-size 16
                       :font-weight "600"}}
