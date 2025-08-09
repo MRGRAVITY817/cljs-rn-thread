@@ -1,5 +1,5 @@
 (ns app.messages
-  (:require [uix.core :as uix :refer [$]]
+  (:require [uix.core :as uix :refer [$ defui]]
             [react-native :as rn]
             [components.flat-list :refer [flat-list]]
             [app.data :refer [conversations users]]))

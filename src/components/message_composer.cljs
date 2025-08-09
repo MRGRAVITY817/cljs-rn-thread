@@ -1,5 +1,5 @@
 (ns components.message-composer
-  (:require [uix.core :as uix :refer [$]]
+  (:require [uix.core :as uix :refer [$ defui]]
             [react-native :as rn]))
 
 (defui message-composer

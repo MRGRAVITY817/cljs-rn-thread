@@ -65,6 +65,13 @@ This is a **ClojureScript React Native project** built with Expo, using UIx (Rea
 - Import custom components from `src/components/` when they exist
 - Prefer project-specific components over raw React Native components
 
+**UIx Import Requirements**:
+- **ALWAYS include `defui` in `:refer` when using `defui` macro**: `[uix.core :as uix :refer [$ defui]]`
+- **ALWAYS include `$` in `:refer` when creating React elements**: Required for JSX-like syntax
+- **Common UIx imports pattern**: `[uix.core :as uix :refer [$ defui]]` for components
+- **For hooks only**: `[uix.core :as uix]` then use `uix/use-state`, `uix/use-effect`, etc.
+- **Never use `defui` without importing it** - this will cause compilation errors
+
 ### State Management
 The project uses React hooks (via UIx) for local state management. For complex state, consider:
 - UIx context providers
