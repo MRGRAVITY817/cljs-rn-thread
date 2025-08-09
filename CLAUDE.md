@@ -65,6 +65,19 @@ This is a **ClojureScript React Native project** built with Expo, using UIx (Rea
 - Import custom components from `src/components/` when they exist
 - Prefer project-specific components over raw React Native components
 
+**React Native Component Naming**:
+- **ALWAYS use PascalCase for React Native components**: `rn/TouchableOpacity`, `rn/View`, `rn/Text`, `rn/Image`
+- **NEVER use kebab-case or camelCase**: Incorrect: `rn/touchable-opacity`, `rn/touchableOpacity`
+- **Common correct patterns**:
+  - `rn/View` (not `rn/view`)
+  - `rn/Text` (not `rn/text`) 
+  - `rn/TouchableOpacity` (not `rn/touchable-opacity`)
+  - `rn/SafeAreaView` (not `rn/safe-area-view`)
+  - `rn/ScrollView` (not `rn/scroll-view`)
+  - `rn/TextInput` (not `rn/text-input`)
+  - `rn/FlatList` (not `rn/flat-list`)
+  - `rn/Image` (not `rn/image`)
+
 **UIx Import Requirements**:
 - **ALWAYS include `defui` in `:refer` when using `defui` macro**: `[uix.core :as uix :refer [$ defui]]`
 - **ALWAYS include `$` in `:refer` when creating React elements**: Required for JSX-like syntax
