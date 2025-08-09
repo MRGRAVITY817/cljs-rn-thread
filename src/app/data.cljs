@@ -278,3 +278,164 @@
              :followers 1654
              :following 289
              :posts 623}})
+
+(def mock-notifications
+  [{:id 1
+    :type :like
+    :user {:name "Alex Rivera"
+           :username "@alexr"
+           :avatar "https://via.placeholder.com/40"}
+    :post-content "Just shipped a new feature at work! #ReactNative + #ClojureScript is such a powerful combo 🚀"
+    :timestamp "2h"
+    :read? false
+    :thread-id 1}
+
+   {:id 2
+    :type :reply
+    :user {:name "Maya Patel"
+           :username "@mayap"
+           :avatar "https://via.placeholder.com/40"}
+    :post-content "Hot take: #ClojureScript's immutable data structures make mobile development so much more predictable."
+    :timestamp "4h"
+    :read? false
+    :thread-id 2}
+
+   {:id 3
+    :type :mention
+    :user {:name "Jordan Kim"
+           :username "@jordank"
+           :avatar "https://via.placeholder.com/40"}
+    :post-content "@you have you tried the new shadow-cljs hot reloading? It's incredible! #ClojureScript"
+    :timestamp "6h"
+    :read? true
+    :thread-id 3}
+
+   {:id 4
+    :type :follow
+    :user {:name "Emma Watson"
+           :username "@emmaw"
+           :avatar "https://via.placeholder.com/40"}
+    :timestamp "8h"
+    :read? false}
+
+   {:id 5
+    :type :repost
+    :user {:name "Carlos Mendez"
+           :username "@carlosm"
+           :avatar "https://via.placeholder.com/40"}
+    :post-content "Learning Clojure has completely changed how I think about programming. The emphasis on simplicity and composability is beautiful."
+    :timestamp "12h"
+    :read? true
+    :thread-id 5}
+
+   {:id 6
+    :type :like
+    :user {:name "Zoe Taylor"
+           :username "@zoet"
+           :avatar "https://via.placeholder.com/40"}
+    :post-content "Pro tip: Use shadow-cljs with #ReactNative for the best hot reloading experience. Game changer for productivity!"
+    :timestamp "1d"
+    :read? true
+    :thread-id 6}
+
+   {:id 7
+    :type :reply
+    :user {:name "Ryan Murphy"
+           :username "@ryanm"
+           :avatar "https://via.placeholder.com/40"}
+    :post-content "Working on a new design system. The challenge isn't creating components, it's creating the right abstractions that scale."
+    :timestamp "1d"
+    :read? true
+    :thread-id 7}
+
+   {:id 8
+    :type :mention
+    :user {:name "Tech Enthusiast"
+           :username "@techlover"
+           :avatar "https://via.placeholder.com/40"}
+    :post-content "@you what's your take on the new React Native architecture? Loving the performance improvements!"
+    :timestamp "2d"
+    :read? true
+    :thread-id 8}
+
+   {:id 9
+    :type :follow
+    :user {:name "Dev Community"
+           :username "@devs"
+           :avatar "https://via.placeholder.com/40"}
+    :timestamp "3d"
+    :read? true}
+
+   {:id 10
+    :type :like
+    :user {:name "Open Source Dev"
+           :username "@osdev"
+           :avatar "https://via.placeholder.com/40"}
+    :post-content "Contributing to #OpenSource projects has taught me more than any course ever could. The community is amazing!"
+    :timestamp "4d"
+    :read? true
+    :thread-id 13}])
+
+(def conversations
+  [{:id "conv1"
+    :participants ["alice" "bob"]
+    :last-message "Hey, how are you?"
+    :timestamp "2024-01-09T15:30:00Z"
+    :unread-count 2}
+   {:id "conv2"
+    :participants ["alice" "charlie"]
+    :last-message "Thanks for the help!"
+    :timestamp "2024-01-09T14:20:00Z"
+    :unread-count 0}
+   {:id "conv3"
+    :participants ["alice" "diana"]
+    :last-message "Let's meet tomorrow"
+    :timestamp "2024-01-09T10:15:00Z"
+    :unread-count 1}])
+
+(def messages
+  {"conv1" [{:id "msg1"
+             :sender "bob"
+             :content "Hey, how are you?"
+             :timestamp "2024-01-09T15:30:00Z"
+             :read true}
+            {:id "msg2"
+             :sender "alice"
+             :content "I'm good! How about you?"
+             :timestamp "2024-01-09T15:32:00Z"
+             :read true}
+            {:id "msg3"
+             :sender "bob"
+             :content "Doing well, thanks for asking!"
+             :timestamp "2024-01-09T15:33:00Z"
+             :read false}]
+   "conv2" [{:id "msg4"
+             :sender "charlie"
+             :content "Could you help me with this project?"
+             :timestamp "2024-01-09T14:18:00Z"
+             :read true}
+            {:id "msg5"
+             :sender "alice"
+             :content "Of course! What do you need help with?"
+             :timestamp "2024-01-09T14:19:00Z"
+             :read true}
+            {:id "msg6"
+             :sender "charlie"
+             :content "Thanks for the help!"
+             :timestamp "2024-01-09T14:20:00Z"
+             :read true}]
+   "conv3" [{:id "msg7"
+             :sender "diana"
+             :content "Are you free tomorrow?"
+             :timestamp "2024-01-09T10:14:00Z"
+             :read true}
+            {:id "msg8"
+             :sender "alice"
+             :content "Yes, what time works for you?"
+             :timestamp "2024-01-09T10:15:00Z"
+             :read true}
+            {:id "msg9"
+             :sender "diana"
+             :content "Let's meet tomorrow"
+             :timestamp "2024-01-09T10:15:00Z"
+             :read false}]})

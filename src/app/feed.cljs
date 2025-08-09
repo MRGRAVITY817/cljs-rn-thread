@@ -1,13 +1,16 @@
 (ns app.feed
-  (:require [app.data :refer [mock-posts]]
+  (:require [app.data :refer [mock-posts mock-notifications]]
             [components.feed-header :refer [feed-header]]
             [components.feed-item :refer [feed-item]]
             [components.flat-list :refer [flat-list]]
             [react-native :as rn]
             [uix.core :refer [$ defui] :as uix]))
 
-(defui feed [{:keys [on-profile-click new-post new-reply replying-to on-thread-click on-reply-click on-search-click on-hashtag-click]}]
+(defui feed [{:keys [on-profile-click new-post new-reply replying-to on-thread-click on-reply-click on-search-click on-notifications-click on-messages-click on-hashtag-click]}]
   (let [[posts set-posts!] (uix/use-state mock-posts)
+        [notifications set-notifications!] (uix/use-state mock-notifications)
+
+        unread-count (count (filter #(not (:read? %)) notifications))
 
         ;; Effect to handle new posts
         _ (uix/use-effect
@@ -93,10 +96,12 @@
                                 (js/console.log "Mention clicked:" mention))
                               [])]
 
-;; Action handlers
     ($ rn/SafeAreaView {:style {:flex 1
                                 :background-color "#ffffff"}}
-       ($ feed-header {:on-search-click on-search-click})
+       ($ feed-header {:on-search-click on-search-click
+                       :on-notifications-click on-notifications-click
+                       :on-messages-click on-messages-click
+                       :unread-count unread-count})
        ($ flat-list {:data (filter #(nil? (:reply-to %)) posts) ; Only show main posts, not replies
                      :key-extractor (fn [item] (str (:id item)))
                      :render-item (fn [item]
@@ -134,13 +139,15 @@
                             :color "white"}}
            "✏️"))))
 
-(defui feed-screen [{:keys [on-profile-click on-compose-click on-thread-click on-reply-click on-search-click on-hashtag-click new-post new-reply replying-to]}]
+(defui feed-screen [{:keys [on-profile-click on-compose-click on-thread-click on-reply-click on-search-click on-notifications-click on-messages-click on-hashtag-click new-post new-reply replying-to]}]
   ($ rn/View {:style {:flex 1
                       :background-color "#ffffff"}}
      ($ feed {:on-profile-click on-profile-click
               :on-thread-click on-thread-click
               :on-reply-click on-reply-click
               :on-search-click on-search-click
+              :on-notifications-click on-notifications-click
+              :on-messages-click on-messages-click
               :on-hashtag-click on-hashtag-click
               :new-post new-post
               :new-reply new-reply

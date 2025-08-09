@@ -7,6 +7,9 @@
             [app.compose :refer [compose-screen]]
             [app.thread :refer [thread-screen]]
             [app.search :refer [search-screen]]
+            [app.notifications :refer [notifications-screen]]
+            [app.messages :refer [messages-screen]]
+            [app.conversation :refer [conversation-screen]]
             [components.reply-composer :refer [reply-composer]]))
 
 (defui counter []
@@ -47,6 +50,16 @@
         navigate-to-search (fn []
                              (set-current-screen! {:screen :search}))
 
+        navigate-to-notifications (fn []
+                                    (set-current-screen! {:screen :notifications}))
+
+        navigate-to-messages (fn []
+                               (set-current-screen! {:screen :messages}))
+
+        navigate-to-conversation (fn [conversation]
+                                   (set-current-screen! {:screen :conversation
+                                                         :conversation conversation}))
+
         navigate-to-hashtag (fn [hashtag]
                               (set-current-screen! {:screen :search
                                                     :search-query hashtag}))
@@ -71,6 +84,8 @@
                             :on-thread-click navigate-to-thread
                             :on-reply-click navigate-to-reply
                             :on-search-click navigate-to-search
+                            :on-notifications-click navigate-to-notifications
+                            :on-messages-click navigate-to-messages
                             :on-hashtag-click navigate-to-hashtag
                             :new-post (:new-post current-screen)
                             :new-reply (:new-reply current-screen)
@@ -90,7 +105,16 @@
       :search ($ search-screen {:on-back navigate-back
                                 :on-profile-click navigate-to-profile
                                 :on-thread-click navigate-to-thread
-                                :initial-query (:search-query current-screen)}))))
+                                :initial-query (:search-query current-screen)})
+      :notifications ($ notifications-screen {:on-back navigate-back
+                                              :on-profile-click navigate-to-profile
+                                              :on-thread-click navigate-to-thread})
+      :messages ($ messages-screen {:current-user "alice"
+                                    :on-back navigate-back
+                                    :on-select-conversation navigate-to-conversation})
+      :conversation ($ conversation-screen {:conversation (:conversation current-screen)
+                                            :current-user "alice"
+                                            :on-back navigate-back}))))
 
 (defn ^:export init []
   (expo/registerRootComponent root))
