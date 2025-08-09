@@ -222,9 +222,9 @@
                              :on-profile-click on-profile-click
                              :on-thread-click #(on-thread-click (:thread-id post))})))))))
 
-(defui search-screen [{:keys [on-back on-profile-click on-thread-click]}]
+(defui search-screen [{:keys [on-back on-profile-click on-thread-click initial-query]}]
   "Main search screen"
-  (let [[search-query set-search-query!] (uix/use-state "")
+  (let [[search-query set-search-query!] (uix/use-state (or initial-query ""))
         [search-history set-search-history!] (uix/use-state recent-searches)
 
         post-results (search-posts search-query mock-posts)

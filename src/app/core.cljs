@@ -47,6 +47,10 @@
         navigate-to-search (fn []
                              (set-current-screen! {:screen :search}))
 
+        navigate-to-hashtag (fn [hashtag]
+                              (set-current-screen! {:screen :search
+                                                    :search-query hashtag}))
+
         navigate-back (fn []
                         (set-current-screen! {:screen :feed}))
 
@@ -67,6 +71,7 @@
                             :on-thread-click navigate-to-thread
                             :on-reply-click navigate-to-reply
                             :on-search-click navigate-to-search
+                            :on-hashtag-click navigate-to-hashtag
                             :new-post (:new-post current-screen)
                             :new-reply (:new-reply current-screen)
                             :replying-to (:replying-to current-screen)})
@@ -77,13 +82,15 @@
       :thread ($ thread-screen {:thread-id (:thread-id current-screen)
                                 :on-back navigate-back
                                 :on-profile-click navigate-to-profile
-                                :on-reply navigate-to-reply})
+                                :on-reply navigate-to-reply
+                                :on-hashtag-click navigate-to-hashtag})
       :reply ($ reply-composer {:replying-to (:replying-to current-screen)
                                 :on-cancel navigate-back
                                 :on-submit handle-reply-submit})
       :search ($ search-screen {:on-back navigate-back
                                 :on-profile-click navigate-to-profile
-                                :on-thread-click navigate-to-thread}))))
+                                :on-thread-click navigate-to-thread
+                                :initial-query (:search-query current-screen)}))))
 
 (defn ^:export init []
   (expo/registerRootComponent root))

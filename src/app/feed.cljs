@@ -6,7 +6,7 @@
             [react-native :as rn]
             [uix.core :refer [$ defui] :as uix]))
 
-(defui feed [{:keys [on-profile-click new-post new-reply replying-to on-thread-click on-reply-click on-search-click]}]
+(defui feed [{:keys [on-profile-click new-post new-reply replying-to on-thread-click on-reply-click on-search-click on-hashtag-click]}]
   (let [[posts set-posts!] (uix/use-state mock-posts)
 
         ;; Effect to handle new posts
@@ -80,7 +80,18 @@
         handle-repost (uix/use-callback
                        (fn [post-id]
                          (js/console.log "Repost" post-id))
-                       [])]
+                       [])
+
+        handle-hashtag-click (uix/use-callback
+                              (fn [hashtag]
+                                (when on-hashtag-click
+                                  (on-hashtag-click hashtag)))
+                              [on-hashtag-click])
+
+        handle-mention-click (uix/use-callback
+                              (fn [mention]
+                                (js/console.log "Mention clicked:" mention))
+                              [])]
 
 ;; Action handlers
     ($ rn/SafeAreaView {:style {:flex 1
@@ -94,6 +105,8 @@
                                                   :on-reply handle-reply
                                                   :on-repost handle-repost
                                                   :on-profile-click on-profile-click
+                                                  :on-hashtag-click handle-hashtag-click
+                                                  :on-mention-click handle-mention-click
                                                   :on-thread-click (fn []
                                                                      (when on-thread-click
                                                                        (on-thread-click (:thread-id item))))}))
@@ -121,13 +134,14 @@
                             :color "white"}}
            "✏️"))))
 
-(defui feed-screen [{:keys [on-profile-click on-compose-click on-thread-click on-reply-click on-search-click new-post new-reply replying-to]}]
+(defui feed-screen [{:keys [on-profile-click on-compose-click on-thread-click on-reply-click on-search-click on-hashtag-click new-post new-reply replying-to]}]
   ($ rn/View {:style {:flex 1
                       :background-color "#ffffff"}}
      ($ feed {:on-profile-click on-profile-click
               :on-thread-click on-thread-click
               :on-reply-click on-reply-click
               :on-search-click on-search-click
+              :on-hashtag-click on-hashtag-click
               :new-post new-post
               :new-reply new-reply
               :replying-to replying-to})

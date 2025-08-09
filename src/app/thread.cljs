@@ -23,7 +23,7 @@
        (filter #(= (:reply-to %) parent-id))
        (sort-by :id)))
 
-(defui thread-item [{:keys [post on-like on-reply on-repost on-profile-click replies level]}]
+(defui thread-item [{:keys [post on-like on-reply on-repost on-profile-click on-hashtag-click on-mention-click replies level]}]
   "Individual post in a thread with clean layout"
   (let [has-replies? (> (count replies) 0)]
     ($ rn/View {:style {:flex 1}}
@@ -33,7 +33,9 @@
                      :on-like on-like
                      :on-reply on-reply
                      :on-repost on-repost
-                     :on-profile-click on-profile-click})
+                     :on-profile-click on-profile-click
+                     :on-hashtag-click on-hashtag-click
+                     :on-mention-click on-mention-click})
 
        ;; Replies (no nesting margin)
        (when has-replies?
@@ -45,6 +47,8 @@
                               :on-reply on-reply
                               :on-repost on-repost
                               :on-profile-click on-profile-click
+                              :on-hashtag-click on-hashtag-click
+                              :on-mention-click on-mention-click
                               :replies (get-replies (:id reply) mock-posts)
                               :level (inc level)})))))))
 
@@ -71,7 +75,7 @@
                                  :color "#536471"}}
                 (str "Started by " (get-in main-post [:user :name]))))))))
 
-(defui thread-screen [{:keys [thread-id on-back on-profile-click on-reply]}]
+(defui thread-screen [{:keys [thread-id on-back on-profile-click on-reply on-hashtag-click]}]
   "Main thread view screen"
   (let [thread-posts (get-thread-posts thread-id mock-posts)
         main-post (get-main-post thread-id mock-posts)
@@ -98,7 +102,18 @@
         handle-repost (uix/use-callback
                        (fn [post-id]
                          (js/console.log "Repost" post-id))
-                       [])]
+                       [])
+
+        handle-hashtag-click (uix/use-callback
+                              (fn [hashtag]
+                                (when on-hashtag-click
+                                  (on-hashtag-click hashtag)))
+                              [on-hashtag-click])
+
+        handle-mention-click (uix/use-callback
+                              (fn [mention]
+                                (js/console.log "Mention clicked:" mention))
+                              [])]
 
     (if (empty? posts)
       ;; Empty state
@@ -129,5 +144,7 @@
                               :on-reply handle-reply
                               :on-repost handle-repost
                               :on-profile-click on-profile-click
+                              :on-hashtag-click handle-hashtag-click
+                              :on-mention-click handle-mention-click
                               :replies (get-replies (:id main-post) posts)
                               :level 0})))))))
