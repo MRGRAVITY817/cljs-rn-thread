@@ -29,43 +29,46 @@
 (defui conversation-header
   [{:keys [conversation current-user on-back]}]
   (let [partner (get-conversation-partner conversation current-user)]
-    ($ rn/View
-       {:style {:flex-direction "row"
-                :align-items "center"
-                :padding-horizontal 16
-                :padding-vertical 12
-                :background-color "white"
-                :border-bottom-width 1
-                :border-bottom-color "#E5E5EA"}}
-
-       ($ rn/TouchableOpacity
-          {:on-press on-back
-           :style {:padding 8
-                   :margin -8
-                   :margin-right 4}}
-          ($ rn/Text
-             {:style {:font-size 18
-                      :color "#007AFF"}}
-             "‹"))
-
-       ($ rn/Image
-          {:source {:uri (:avatar partner)}
-           :style {:width 32
-                   :height 32
-                   :border-radius 16
-                   :margin-right 12}})
-
+    ($ rn/SafeAreaView {:style {:background-color "white"
+                                :border-bottom-width 0.5
+                                :border-bottom-color "#e1e8ed"}}
        ($ rn/View
-          {:style {:flex 1}}
-          ($ rn/Text
-             {:style {:font-size 16
-                      :font-weight "600"
-                      :color "#000"}}
-             (:name partner))
-          ($ rn/Text
-             {:style {:font-size 14
-                      :color "#8E8E93"}}
-             (str "@" (:username partner)))))))
+          {:style {:flex-direction "row"
+                   :align-items "center"
+                   :padding-horizontal 16
+                   :padding-vertical 12
+                   :background-color "white"
+                   :border-bottom-width 1
+                   :border-bottom-color "#E5E5EA"}}
+
+          ($ rn/TouchableOpacity
+             {:on-press on-back
+              :style {:padding 8
+                      :margin -8
+                      :margin-right 4}}
+             ($ rn/Text
+                {:style {:font-size 18
+                         :color "#007AFF"}}
+                "‹"))
+
+          ($ rn/Image
+             {:source {:uri (:avatar partner)}
+              :style {:width 32
+                      :height 32
+                      :border-radius 16
+                      :margin-right 12}})
+
+          ($ rn/View
+             {:style {:flex 1}}
+             ($ rn/Text
+                {:style {:font-size 16
+                         :font-weight "600"
+                         :color "#000"}}
+                (:name partner))
+             ($ rn/Text
+                {:style {:font-size 14
+                         :color "#8E8E93"}}
+                (str "@" (:username partner))))))))
 
 (defui conversation-screen
   [{:keys [conversation current-user on-back]}]
