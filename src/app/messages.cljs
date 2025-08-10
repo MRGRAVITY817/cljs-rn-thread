@@ -88,32 +88,36 @@
 
 (defui messages-header
   [{:keys [on-back]}]
-  ($ rn/View
-     {:style {:flex-direction "row"
-              :align-items "center"
-              :justify-content "space-between"
-              :padding-horizontal 16
-              :padding-vertical 12
-              :background-color "white"
-              :border-bottom-width 1
-              :border-bottom-color "#E5E5EA"}}
+  ($ rn/SafeAreaView
+     {:style {:background-color "white"
+              :border-bottom-width 0.5
+              :border-bottom-color "#e1e8ed"}}
+     ($ rn/View
+        {:style {:flex-direction "row"
+                 :align-items "center"
+                 :justify-content "space-between"
+                 :padding-horizontal 16
+                 :padding-vertical 12
+                 :background-color "white"
+                 :border-bottom-width 1
+                 :border-bottom-color "#E5E5EA"}}
 
-     ($ rn/TouchableOpacity
-        {:on-press on-back
-         :style {:padding 8
-                 :margin -8}}
+        ($ rn/TouchableOpacity
+           {:on-press on-back
+            :style {:padding 8
+                    :margin -8}}
+           ($ rn/Text
+              {:style {:font-size 18
+                       :color "#007AFF"}}
+              "‹ Back"))
+
         ($ rn/Text
            {:style {:font-size 18
-                    :color "#007AFF"}}
-           "‹ Back"))
+                    :font-weight "600"
+                    :color "#000"}}
+           "Messages")
 
-     ($ rn/Text
-        {:style {:font-size 18
-                 :font-weight "600"
-                 :color "#000"}}
-        "Messages")
-
-     ($ rn/View {:style {:width 32}})))
+        ($ rn/View {:style {:width 32}}))))
 
 (defui messages-screen
   [{:keys [current-user on-back on-select-conversation]}]

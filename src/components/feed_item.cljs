@@ -1,7 +1,8 @@
 (ns components.feed-item
   (:require
    [react-native :as rn]
-   [uix.core :refer [$ defui]]))
+   [uix.core :refer [$ defui]]
+   [components.hashtag-text :refer [hashtag-text]]))
 
 (defn format-number [n]
   (cond
@@ -23,7 +24,7 @@
         (format-number count))))
 
 (defui feed-item
-  [{:keys [post on-like on-reply on-repost on-profile-click on-thread-click]}]
+  [{:keys [post on-like on-reply on-repost on-profile-click on-thread-click on-hashtag-click on-mention-click]}]
   ($ rn/TouchableOpacity {:style {:background-color "white"
                                   :border-bottom-width 0.5
                                   :border-bottom-color "#e1e8ed"
@@ -70,12 +71,14 @@
                                   :color "#536471"}}
                  (:timestamp post)))))
 
-           ;; Post content
-     ($ rn/Text {:style {:font-size 15
-                         :line-height 20
-                         :color "#0f1419"
-                         :margin-bottom 12}}
-        (:content post))
+           ;; Post content with clickable hashtags
+     ($ hashtag-text {:content (:content post)
+                      :style {:font-size 15
+                              :line-height 20
+                              :color "#0f1419"
+                              :margin-bottom 12}
+                      :on-hashtag-press on-hashtag-click
+                      :on-mention-press on-mention-click})
 
            ;; Action buttons
      ($ rn/View {:style {:flex-direction "row"

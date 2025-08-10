@@ -6,21 +6,24 @@
             [components.flat-list :refer [flat-list]]))
 
 (defui notifications-header [{:keys [on-back]}]
-  ($ rn/View {:style {:flex-direction "row"
-                      :align-items "center"
-                      :padding 16
-                      :background-color "#ffffff"
-                      :border-bottom-width 0.5
-                      :border-bottom-color "#e1e8ed"}}
-     ($ rn/TouchableOpacity {:style {:margin-right 16}
-                             :on-press on-back}
-        ($ rn/Text {:style {:font-size 18
-                            :color "#1d9bf0"}}
-           "←"))
-     ($ rn/Text {:style {:font-size 20
-                         :font-weight "bold"
-                         :color "#0f1419"}}
-        "Notifications")))
+  ($ rn/SafeAreaView {:style {:background-color "white"
+                              :border-bottom-width 0.5
+                              :border-bottom-color "#e1e8ed"}}
+     ($ rn/View {:style {:flex-direction "row"
+                         :align-items "center"
+                         :padding 16
+                         :background-color "#ffffff"
+                         :border-bottom-width 0.5
+                         :border-bottom-color "#e1e8ed"}}
+        ($ rn/TouchableOpacity {:style {:margin-right 16}
+                                :on-press on-back}
+           ($ rn/Text {:style {:font-size 18
+                               :color "#1d9bf0"}}
+              "←"))
+        ($ rn/Text {:style {:font-size 20
+                            :font-weight "bold"
+                            :color "#0f1419"}}
+           "Notifications"))))
 
 (defui notifications-screen [{:keys [on-back on-profile-click on-thread-click]}]
   "Main notifications screen"

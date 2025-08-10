@@ -78,6 +78,26 @@ This is a **ClojureScript React Native project** built with Expo, using UIx (Rea
   - `rn/FlatList` (not `rn/flat-list`)
   - `rn/Image` (not `rn/image`)
 
+**SafeAreaView Requirements for Screen Headers**:
+- **ALWAYS wrap screen headers with SafeAreaView**: Prevents conflicts with phone notches and status bars
+- **SafeAreaView must be the root element** of header components: `($ rn/SafeAreaView {...} ($ rn/View {...} content))`
+- **NEVER use View as root element** for headers: Incorrect: `($ rn/View {...} header-content)`
+- **Proper SafeAreaView pattern**:
+  ```clojure
+  (defui my-header
+    [{:keys [props]}]
+    ($ rn/SafeAreaView {:style {:background-color "white"
+                                :border-bottom-width 0.5
+                                :border-bottom-color "#e1e8ed"}}
+       ($ rn/View {:style {:flex-direction "row"
+                           :align-items "center"
+                           :padding-horizontal 16
+                           :padding-vertical 12}}
+          ;; header content here
+          )))
+  ```
+- **Apply to all screen headers**: Navigation headers, modal headers, screen titles, etc.
+
 **UIx Import Requirements**:
 - **ALWAYS include `defui` in `:refer` when using `defui` macro**: `[uix.core :as uix :refer [$ defui]]`
 - **ALWAYS include `$` in `:refer` when creating React elements**: Required for JSX-like syntax
